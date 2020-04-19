@@ -32,9 +32,9 @@ export function parseRequest(req: IncomingMessage) {
         theme: theme === 'dark' ? 'dark' : 'light',
         md: md === '1' || md === 'true',
         fontSize: fontSize || '96px',
-        images: getArray(images),
-        widths: getArray(widths),
-        heights: getArray(heights),
+        images: images ? getArray(images) : [],
+        widths: widths ? getArray(widths) : [],
+        heights: heights ? getArray(heights) : [],
     };
     parsedRequest.images = getDefaultImages(parsedRequest.images, parsedRequest.theme);
     return parsedRequest;
