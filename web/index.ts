@@ -142,16 +142,17 @@ const markdownOptions: DropdownOption[] = [
 ];
 
 const imageLightOptions: DropdownOption[] = [
-    { text: 'ZEIT', value: 'https://assets.zeit.co/image/upload/front/assets/design/zeit-black-triangle.svg' },
-    { text: 'Next.js', value: 'https://assets.zeit.co/image/upload/front/assets/design/nextjs-black-logo.svg' },
-    { text: 'Hyper', value: 'https://assets.zeit.co/image/upload/front/assets/design/hyper-color-logo.svg' },
+    { text: 'Auotiv', value: 'https://auotiv.com/images/auotiv/assets/design/auotiv.svg' },
+    // { text: 'ZEIT', value: 'https://assets.zeit.co/image/upload/front/assets/design/zeit-black-triangle.svg' },
+    // { text: 'Next.js', value: 'https://assets.zeit.co/image/upload/front/assets/design/nextjs-black-logo.svg' },
+    // { text: 'Hyper', value: 'https://assets.zeit.co/image/upload/front/assets/design/hyper-color-logo.svg' },
 ];
 
 const imageDarkOptions: DropdownOption[] = [
-
-    { text: 'ZEIT', value: 'https://assets.zeit.co/image/upload/front/assets/design/zeit-white-triangle.svg' },
-    { text: 'Next.js', value: 'https://assets.zeit.co/image/upload/front/assets/design/nextjs-white-logo.svg' },
-    { text: 'Hyper', value: 'https://assets.zeit.co/image/upload/front/assets/design/hyper-bw-logo.svg' },
+    { text: 'Auotiv', value: 'https://auotiv.com/images/auotiv/assets/design/auotiv-dark.svg' },
+    // { text: 'ZEIT', value: 'https://assets.zeit.co/image/upload/front/assets/design/zeit-white-triangle.svg' },
+    // { text: 'Next.js', value: 'https://assets.zeit.co/image/upload/front/assets/design/nextjs-white-logo.svg' },
+    // { text: 'Hyper', value: 'https://assets.zeit.co/image/upload/front/assets/design/hyper-bw-logo.svg' },
 ];
 
 const widthOptions = [
@@ -176,6 +177,12 @@ const heightOptions = [
     { text: '350', value: '350' },
 ];
 
+const layoutOptions = [
+    { text: 'center', value: 'center' },
+    // { text: 'top left', value: 'top left' },
+    // { text: 'center left', value: 'center left' }
+];
+
 interface AppState extends ParsedRequest {
     loading: boolean;
     showToast: boolean;
@@ -183,6 +190,7 @@ interface AppState extends ParsedRequest {
     selectedImageIndex: number;
     widths: string[];
     heights: string[];
+    layouts: string[];
     overrideUrl: URL | null;
 }
 
@@ -209,6 +217,7 @@ const App = (_: any, state: AppState, setState: SetState) => {
         images=[imageLightOptions[0].value],
         widths=[],
         heights=[],
+        layouts=[],
         showToast = false,
         messageToast = '',
         loading = true,
@@ -231,7 +240,9 @@ const App = (_: any, state: AppState, setState: SetState) => {
     for (let height of heights) {
         url.searchParams.append('heights', height);
     }
-
+    for (let layout of layouts) {
+        url.searchParams.append('layouts', layout);
+    }
     return H('div',
         { className: 'split' },
         H('div',
@@ -318,7 +329,17 @@ const App = (_: any, state: AppState, setState: SetState) => {
                                     clone[0] = val;
                                     setLoadingState({ heights: clone });
                                 }
-                            })
+                            }),
+                            H(Dropdown, {
+                                options: layoutOptions,
+                                value: layouts[0],
+                                small: true,
+                                onchange: (val: string) =>  {
+                                    let clone = [...layouts];
+                                    clone[0] = val;
+                                    setLoadingState({ layouts: clone });
+                                }
+                            }),
                         )
                     ),
                 }),
@@ -353,6 +374,16 @@ const App = (_: any, state: AppState, setState: SetState) => {
                                     let clone = [...heights];
                                     clone[i + 1] = val;
                                     setLoadingState({ heights: clone });
+                                }
+                            }),
+                            H(Dropdown, {
+                                options: layoutOptions,
+                                value: layouts[i + 1],
+                                small: true,
+                                onchange: (val: string) =>  {
+                                    let clone = [...layouts];
+                                    clone[i + 1] = val;
+                                    setLoadingState({ layouts: clone });
                                 }
                             })
                         )

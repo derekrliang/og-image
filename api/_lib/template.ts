@@ -67,11 +67,16 @@ function getCss(theme: string, fontSize: string) {
 
     .logo-wrapper {
         display: flex;
-        align-items: center;
+        // align-items: center;
+        align-items: flex-start;
         align-content: center;
         justify-content: center;
         justify-items: center;
     }
+
+    // .top_left {
+    //     align-items: flex-start;
+    // };
 
     .logo {
         margin: 0 75px;
